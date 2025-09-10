@@ -9,10 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body class="page-sky page-thanks">
-<!-- Poster background -->
 <div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
 
-<!-- Floating balloons layer -->
 <div class="balloons-layer" aria-hidden="true">
     <span class="balloon" style="--x:12%; --size:90px;  --dur:28s; --delay:-4s"></span>
     <span class="balloon" style="--x:28%; --size:70px;  --dur:24s; --delay:-10s"></span>
@@ -21,13 +19,14 @@
     <span class="balloon" style="--x:86%; --size:60px;  --dur:22s; --delay:-12s"></span>
 </div>
 
-<!-- Overlay matched to poster; content goes inside cloud -->
 <div class="poster-overlay">
     <div class="cloud-slot center-stack">
         <h1 class="text-3xl font-bold halo">
             Thank you<span th:if="${name != null && !#strings.isEmpty(name)}" th:text="' , ' + ${name}"></span>! 🎉
         </h1>
-        <p class="thanks-text">Your RSVP has been recorded. We can’t wait to celebrate!</p><br>
+
+        <p class="thanks-text">Your RSVP has been recorded.</p>
+        <p class="thanks-text">We can’t wait to celebrate!</p><br>
 
         <div class="thanks-text">Venue</div>
         <p class="thanks-text">

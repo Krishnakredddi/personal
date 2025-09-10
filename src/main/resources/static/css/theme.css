@@ -1,31 +1,30 @@
 /* ===============================
-   Baby Shower – Shared Theme CSS
-   Works for Home, RSVP, Thanks, Admin
+   Baby Shower – Shared Theme CSS (cleaned)
+   Pages: Home, RSVP, Thanks
    =============================== */
 
-/* ---- Poster + Cloud geometry (default = Home) ---- */
+/* ---- Poster + Cloud geometry (defaults) ---- */
 :root{
-    /* Set to your poster’s native aspect (w:h). 1080x1920 ~ 9:16 */
+    /* Poster’s native aspect (w:h). 1080x1920 ~ 9:16 */
     --poster-w: 1080;
     --poster-h: 1920;
 
     /* Cloud area inside the poster (percent of poster box) */
     --cloud-top: 36%;
-    --cloud-left: 4%;
+    --cloud-left: 25%;
     --cloud-width: 74%;
     --cloud-height: 46%;
 }
 
-/* Page variants adjust cloud bounds per screen */
-body.page-home  { --cloud-top: 9%;  --cloud-left: 13%; --cloud-width: 74%; --cloud-height: 46%; }
-body.page-rsvp  { --cloud-top: 30%;  --cloud-left: 12%; --cloud-width: 76%; --cloud-height: 58%; }
-body.page-thanks{ --cloud-top: 33%;  --cloud-left: 13%; --cloud-width: 74%; --cloud-height: 50%; }
-/* Admin keeps background only; add cloud-slot yourself if you want text inside */
-body.page-admin { --cloud-top: 10%; --cloud-left: 12%; --cloud-width: 76%; --cloud-height: 52%; }
-/* Slightly taller cloud on very small phones */
+/* Page-specific cloud bounds */
+body.page-rsvp   { --cloud-top: 30%; --cloud-left: 12%; --cloud-width: 76%; --cloud-height: 58%; }
+body.page-thanks { --cloud-top: 33%; --cloud-left: 19%; --cloud-width: 74%; --cloud-height: 50%; }
+
+/* Very small phones: give more cloud height */
 @media (max-width: 420px){
-    body.page-home, body.page-thanks { --cloud-top: 8%; --cloud-height: 52%; }
-    body.page-rsvp                   { --cloud-top: 7.5%; --cloud-height: 60%; }
+    body:not(.page-rsvp):not(.page-thanks){ --cloud-top: 8%;  --cloud-height: 52%; }
+    body.page-rsvp                              { --cloud-top: 7.5%; --cloud-height: 60%; }
+    body.page-thanks                            { --cloud-top: 8%;  --cloud-height: 52%; }
 }
 
 /* ---- Global page background (letterboxing gradient around poster) ---- */
@@ -55,13 +54,17 @@ body.page-sky{
 /* ---- Overlay that matches poster size & stays centered ---- */
 .poster-overlay{
     position: fixed;
-    inset: auto 50% auto auto;
-    transform: translateX(50%);
+    inset: 0;
+    display: grid;
+    place-items: center;            /* centers the overlay box */
+    z-index: 1;
+    pointer-events: auto;
+}
+.poster-overlay > *{
     height: 100svh;
     aspect-ratio: var(--poster-w) / var(--poster-h);
     width: auto;
-    z-index: 1;
-    pointer-events: auto;
+    position: relative;
 }
 
 /* ---- Cloud “content slot” inside the poster ---- */
@@ -77,8 +80,7 @@ body.page-sky{
     align-items: center;
     text-align: center;
     gap: .35rem;
-    /* Ensure clicks/taps work inside form even though poster is fixed */
-    pointer-events: auto;
+    pointer-events: auto;           /* allow clicks inside */
 }
 
 /* If a page needs scrolling form inside the cloud */
@@ -96,28 +98,18 @@ body.page-sky{
             0 0 2px rgba(255,255,255,.6);
 }
 
-/* ---- Headings / Typography ---- */
-.title { font-size: clamp(52px, 10vw, 108px); line-height: 1; color: #0b1626; }
-.script{ font-family: "Great Vibes", cursive; font-size: clamp(40px, 6.5vw, 72px); color: #36465e; margin-top: -.3rem; }
+/* ---- Minimal typography used by pages ---- */
 .line  { font-size: clamp(16px, 2.6vw, 22px); color: #203046; }
-.small { font-size: 12px; letter-spacing: .25em; text-transform: uppercase; color: #708199; margin-top: .25rem; }
+.cursive {
+    font-family: "Great Vibes", cursive;
+    font-size: clamp(22px, 3.2vw, 34px);
+    line-height: 1.2;
+    letter-spacing: .01em;
+}
+.cursive b { font-weight: 600; }
 
-/* Badges / chips / labels */
-.badge{
-    display:inline-block; background:#fff; border:1px solid #e6edf7;
-    border-radius:999px; padding:.5rem 1rem; color:#536178;
-}
-.chip{
-    display:inline-block; background:#eef2f8cc; border:1px solid #e2e8f0;
-    border-radius:999px; padding:10px 16px; margin:4px; font-weight:800; color:#2b3b4f;
-}
-.honor-label{
-    letter-spacing:.35em; color:#7b8a9e; font-size:12px; text-transform:uppercase; margin-top:.4rem;
-}
-.honor-name{
-    display:inline-block; background:#fff; border:1px solid #dbeafe;
-    border-radius:18px; padding:.5rem 1rem;
-}
+/* Details (font only; inner class sizes removed as unused) */
+.details { font-family: "Dancing Script", cursive; letter-spacing: .01em; }
 
 /* ---- Buttons ---- */
 .btn{
@@ -133,15 +125,13 @@ body.page-sky{
     box-shadow: 0 12px 28px rgba(90,157,244,.35);
 }
 
-/* ---- Forms (RSVP) – visible on white cloud ---- */
+/* ---- Forms (RSVP) ---- */
 .form-grid{ width: min(92%, 720px); margin-inline: auto; }
 .field{ text-align: left; }
 .field label{
     display:block; margin-bottom:6px; font-weight:600; color:#374151;
     text-shadow: 0 0 6px #fff;  /* subtle halo on cloud */
 }
-
-/* Inputs – crisp against white cloud */
 .input{
     appearance:none; width:100%;
     padding:12px 14px; border-radius:12px;
@@ -153,14 +143,9 @@ body.page-sky{
 .input:focus{
     outline:0; border-color:#6ea8ff; box-shadow: 0 0 0 5px rgba(111,167,255,.25);
 }
-textarea.input{ min-height:40px;max-height: 80px; resize:vertical; }
+textarea.input{ min-height:40px; max-height: 80px; resize:vertical; }
 .help{ font-size:12px; color:#6b7280; margin-top:4px; }
 .error{ color:#b91c1c; font-size:12px; margin-top:4px; }
-
-/* ---- Admin table (optional minimal styling) ---- */
-.table{ width:100%; border-collapse:collapse; background:#ffffffd9; border-radius:14px; overflow:hidden; }
-.table th, .table td{ padding:10px; border-bottom:1px solid #eef2ff; text-align:left; font-size:14px; }
-.table th{ font-weight:700; }
 
 /* icons + tighter line rhythm for the message block */
 .icon { width: 22px; height: 22px; flex: 0 0 22px; opacity:.9 }
@@ -175,7 +160,7 @@ textarea.input{ min-height:40px;max-height: 80px; resize:vertical; }
     display: grid;
     grid-template-columns: 22px 1fr; /* icon column + text */
     align-items: start;
-    column-gap: .45rem;              /* tighter than before */
+    column-gap: .45rem;
 }
 .message .row.info .icon{ width:22px; height:22px; margin-top:2px; }
 
@@ -186,8 +171,6 @@ textarea.input{ min-height:40px;max-height: 80px; resize:vertical; }
     z-index: 0;            /* above poster (-1) but below overlay (1) */
     pointer-events: none;
 }
-
-/* One balloon sprite (SVG built-in) */
 .balloon{
     position: absolute;
     left: var(--x, 50%);           /* horizontal start (% of viewport) */
@@ -211,96 +194,136 @@ textarea.input{ min-height:40px;max-height: 80px; resize:vertical; }
     animation-delay: var(--delay, 0s);
     opacity: .95;
 }
-
-@keyframes rise   { to { bottom: 110vh; } }        /* move upward */
+@keyframes rise   { to { bottom: 110vh; } }
 @keyframes sway   {
     0%,100% { transform: translateX(-10px) rotate(-2deg); }
     50%     { transform: translateX( 10px) rotate( 2deg); }
 }
-
-/* make the motion gentler for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce){
     .balloon{ animation: rise var(--dur, 26s) linear infinite; }
 }
 
-.cursive {
-    font-family: "Great Vibes", cursive;
-    font-size: clamp(22px, 3.2vw, 34px);
-    line-height: 1.2;               /* tighter lines for script fonts */
-    letter-spacing: .01em;
-}
-.cursive b { font-weight: 600; }   /* keeps emphasis working */
-
-/* Greeting stays cursive (Great Vibes) */
-.script-mode { font-family: "Great Vibes", cursive; letter-spacing:.01em }
-.script-line { font-size: clamp(22px, 3.4vw, 38px); line-height: 1.25; margin:.2rem 0; }
-.script-line b { font-weight: 700; }
-
-/* DETAILS: cursive + real bold (Dancing Script) */
-.details{
-    font-family: "Dancing Script", cursive;   /* cursive with bold support */
-    letter-spacing: .01em;
-}
-
-.details .date{
-    font-size: clamp(26px, 4vw, 42px);
-    font-weight: 700;                          /* bold */
-}
-
-.details .time{
-    font-size: clamp(28px, 4.2vw, 46px);
-    font-weight: 700;                          /* bold */
-    letter-spacing: .01em;
-}
-
-.details .venue{
-    font-size: clamp(28px, 4.2vw, 46px);
-    font-weight: 700;                          /* bold */
-    margin-top: .1rem;
-}
-
-.details .addr{
-    font-size: clamp(20px, 3.2vw, 32px);
-    font-weight: 600;                          /* slightly lighter */
-    color: #22324a;
-}
-
-/* (keep your compact icon layout) */
-.message .row.info{
-    display:grid; grid-template-columns:26px 1fr; align-items:start; column-gap:.55rem;
-}
-.message .row.info .icon{ width:26px; height:26px; margin-top:0 }
-
-/* RSVP: put content at the top of the cloud and allow scrolling inside */
+/* ---- Page-specific tweaks ---- */
 body.page-rsvp .cloud-slot{
-    justify-content: flex-start;      /* not center; starts at top of cloud */
+    justify-content: flex-start;   /* start at top of cloud */
     padding-top: 0.75rem;
     padding-bottom: 0.5rem;
 }
-
 body.page-rsvp .cloud-form{
-    height: 100%;                     /* fill the cloud slot */
-    overflow: auto;                   /* scroll inside the cloud if needed */
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+/* If the screen is short, give the RSVP cloud more height */
+@media (max-height: 760px){ body.page-rsvp{ --cloud-height: 64%; } }
+@media (max-height: 680px){ body.page-rsvp{ --cloud-height: 68%; } }
+
+/* --- Thanks page text --- */
+body.page-thanks .thanks-text {
+    font-size: clamp(18px, 2.8vw, 22px);
+    line-height: 1.5;
+    color: #22324a;
+}
+
+/* === RSVP cloud fit (keep the form fully inside the white cloud) === */
+body.page-rsvp{
+    /* adjust these to your art's cloud edges (percent of poster) */
+    --cloud-top: 24%;
+    --cloud-left: 16%;
+    --cloud-width: 68%;
+    --cloud-height: 48%;
+}
+
+/* Large laptops/desktops: cloud is a bit narrower/taller */
+@media (min-width: 1024px){
+    body.page-rsvp{
+        --cloud-top: 24.5%;
+        --cloud-left: 17%;
+        --cloud-width: 66%;
+        --cloud-height: 46%;
+    }
+}
+
+/* Small phones: give a touch more width/height */
+@media (max-width: 480px){
+    body.page-rsvp{
+        --cloud-left: 12%;
+        --cloud-width: 76%;
+        --cloud-height: 56%;
+    }
+}
+
+/* Keep the content inside the cloud and scroll within if needed */
+body.page-rsvp .cloud-slot{
+    justify-content: flex-start;
+    padding: 0.75rem 0 0.5rem;
+}
+body.page-rsvp .cloud-form{
+    height: 100%;
+    max-width: 340px;          /* prevents extra-wide two-column stretch */
+    width: 100%;
+    overflow: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-/* If the screen is short, give the cloud more height */
-@media (max-height: 760px){
-    body.page-rsvp{ --cloud-height: 64%; }
-}
-@media (max-height: 680px){
-    body.page-rsvp{ --cloud-height: 68%; }
-}
+/* === RSVP cloud: exact fit + safety guards === */
 
-/* --- Thanks page overrides --- */
-body.page-thanks .thanks-text {
-    font-family: Poppins, system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
-    font-size: clamp(18px, 2.8vw, 22px);
-    line-height: 1.5;
-    color: #22324a; /* softer slate blue */
+/* Desktop / large laptops */
+@media (min-width: 1024px){
+    body.page-rsvp{
+        /* Tweak these if your art shifts a bit on different posters */
+        --cloud-top: 19%;     /* move the slot slightly down */
+        --cloud-left: 30%;    /* push right so it sits inside the white cloud */
+        --cloud-width: 52%;   /* narrower so we avoid the teddy/balloons */
+        --cloud-height: 54%;  /* a bit taller for full form + buttons */
+    }
 }
 
+/* Tablets */
+@media (min-width: 640px) and (max-width: 1023px){
+    body.page-rsvp{
+        --cloud-top: 20%;
+        --cloud-left: 18%;
+        --cloud-width: 64%;
+        --cloud-height: 56%;
+    }
+}
 
+/* Phones */
+@media (max-width: 639px){
+    body.page-rsvp{
+        --cloud-top: 8%;
+        --cloud-left: 10%;
+        --cloud-width: 80%;
+        --cloud-height: 60%;
+    }
+}
 
+/* Keep content centered, padded, and clipped inside the cloud box */
+body.page-rsvp .cloud-slot{
+    align-items: center;                 /* hard-center children */
+    padding: 0.75rem clamp(8px,2vw,18px) 0.5rem;
+    overflow: hidden;                    /* nothing can exceed the cloud rectangle */
+}
+
+/* Scroll INSIDE the cloud if needed, and limit overall form width */
+body.page-rsvp .cloud-form{
+    height: 100%;
+    width: 100%;
+    max-width: 560px;                    /* good fit for desktop cloud */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Force a single-column form so it never pushes past the cloud */
+body.page-rsvp .form-grid{
+    display: grid;
+    grid-template-columns: 1fr !important;  /* override Tailwind's md:grid-cols-2 */
+    margin-inline: auto;
+    width: min(96%, 560px);                  /* keep it comfortably inside */
+}
+
+/* Optional: visualize the slot while fine-tuning (remove after) */
+body.page-rsvp .cloud-slot{ outline: 2px dashed rgba(14,165,233,.45); outline-offset: -2px; }
 
 
