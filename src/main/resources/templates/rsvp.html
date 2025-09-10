@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>RSVP – [[${event.title}]]</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Make the cloud a bit taller on the RSVP page -->
+</head>
+<body class="page-sky page-rsvp">
+<!-- Poster background -->
+<div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
+
+<!-- Floating balloons layer -->
+<div class="balloons-layer" aria-hidden="true">
+    <span class="balloon" style="--x:12%; --size:90px;  --dur:28s; --delay:-4s"></span>
+    <span class="balloon" style="--x:28%; --size:70px;  --dur:24s; --delay:-10s"></span>
+    <span class="balloon" style="--x:50%; --size:95px;  --dur:30s; --delay:-2s"></span>
+    <span class="balloon" style="--x:68%; --size:80px;  --dur:26s; --delay:-7s"></span>
+    <span class="balloon" style="--x:86%; --size:60px;  --dur:22s; --delay:-12s"></span>
+</div>
+
+<!-- Overlay matched to poster; content goes inside cloud -->
+<div class="poster-overlay">
+    <div class="cloud-slot cloud-form center-stack">
+        <h1 class="text-2xl font-semibold halo">RSVP</h1>
+
+        <form method="post" th:action="@{/rsvp}" th:object="${form}"
+              class="form-grid grid md:grid-cols-2 gap-4 w-full">
+
+            <div class="field md:col-span-2">
+                <label class="halo">Full Name *</label>
+                <input class="input" th:field="*{name}" placeholder="Jane Doe" required />
+                <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+            </div>
+
+            <div class="field">
+                <label class="halo">Email *</label>
+                <input class="input" type="email" th:field="*{email}" placeholder="jane@example.com" required />
+                <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+
+            <div class="field">
+                <label class="halo">Phone (optional)</label>
+                <input class="input" type="tel" th:field="*{phone}" placeholder="(555) 555-1234" />
+            </div>
+
+            <div class="field">
+                <label class="halo">Number of Guests *</label>
+                <input class="input" type="number" min="1" th:field="*{guestCount}" />
+                <p class="help halo">Include yourself in this count.</p>
+                <p class="error" th:if="${#fields.hasErrors('guestCount')}" th:errors="*{guestCount}"></p>
+            </div>
+
+            <div class="field md:col-span-2">
+                <label class="halo">Notes</label>
+                <textarea class="input" rows="2" th:field="*{notes}" placeholder="Dietary restrictions, kids, etc."></textarea>
+            </div>
+
+            <div class="md:col-span-2 flex gap-3 justify-center mt-1">
+                <button class="btn btn-primary" type="submit">Submit RSVP</button>
+                <a th:href="@{/}" class="btn">Cancel</a>
+            </div>
+
+            <div class="md:col-span-2 text-center mt-1">
+                <a th:href="@{/}" class="underline halo">← Back to Invitation</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+# ---------------------------
+# Java / Spring Boot
+# ---------------------------
+/target/
+!/src/main/**/target/
+!/src/test/**/target/
+
+# ---------------------------
+# Maven
+# ---------------------------
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# ---------------------------
+# Gradle
+# ---------------------------
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ---------------------------
+# IntelliJ / JetBrains
+# ---------------------------
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ---------------------------
+# Eclipse
+# ---------------------------
+.project
+.classpath
+.settings/
+bin/
+
+# ---------------------------
+# Mac / OS
+# ---------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ---------------------------
+# Logs
+# ---------------------------
+*.log
+*.log.*
+logs/
+
+# ---------------------------
+# Spring Boot
+# ---------------------------
+*.pid
+*.seed
+*.key
+*.h2.db
+*.mv.db
+*.trace.db
+
+# ---------------------------
+# Misc
+# ---------------------------
+*.class
+*.war
+*.ear
+*.swp
+*.swo
+*~

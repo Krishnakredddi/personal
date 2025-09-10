@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Admin – RSVPs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{background:#f7f7fb;font-family:system-ui,Segoe UI,Roboto,Inter}
+        .card{background:white;border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.08);padding:18px}
+        .input{border:1px solid #e5e7eb;background:white;border-radius:10px;padding:10px;width:100%}
+        .btn{border:1px solid #e5e7eb;border-radius:10px;padding:10px 14px;background:white}
+    </style>
+</head>
+<body class="min-h-screen p-5">
+<div class="max-w-5xl mx-auto card">
+    <div class="flex gap-2 items-center justify-between">
+        <h1 class="text-xl font-semibold">RSVPs</h1>
+        <div class="flex gap-2">
+            <form method="get" action="/admin" class="flex gap-2">
+                <input class="input" name="q" th:value="${q}" placeholder="Search name or email…">
+                <button class="btn">Search</button>
+            </form>
+            <a th:href="@{'/admin/export.csv'(q=${q})}" class="btn">Export CSV</a>
+        </div>
+    </div>
+    <div class="overflow-auto mt-3">
+        <table class="min-w-full text-sm">
+            <thead>
+            <tr class="text-left border-b">
+                <th class="py-2 pr-4">Name</th><th class="py-2 pr-4">Email</th><th class="py-2 pr-4">Phone</th>
+                <th class="py-2 pr-4">Guests</th><th class="py-2 pr-4">Notes</th><th class="py-2 pr-4">Submitted</th><th class="py-2 pr-4">IP</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="r : ${rows}" class="border-b">
+                <td class="py-2 pr-4" th:text="${r.name}"></td>
+                <td class="py-2 pr-4" th:text="${r.email}"></td>
+                <td class="py-2 pr-4" th:text="${r.phone}"></td>
+                <td class="py-2 pr-4" th:text="${r.guestCount}"></td>
+                <td class="py-2 pr-4" th:text="${r.notes}"></td>
+                <td class="py-2 pr-4" th:text="${#temporals.format(r.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td class="py-2 pr-4" th:text="${r.ip}"></td>
+            </tr>
+            <tr th:if="${rows.size()==0}">
+                <td colspan="7" class="py-4 text-slate-500">No RSVPs yet.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
