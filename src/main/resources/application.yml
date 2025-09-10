@@ -20,6 +20,9 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
 
+server:
+  port: ${PORT:8080}   # Render sets $PORT at runtime
+
 app:
   owner:
     email: ${OWNER_EMAIL:thanuja.kasireddi@gmail.com}
