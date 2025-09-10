@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service @RequiredArgsConstructor
 public class MailService {
-    private final JavaMailSender mailSender;
+    //private final JavaMailSender mailSender;
     private final EventProperties eventProps;
 
     @Value("${app.owner.email}")
@@ -38,7 +38,7 @@ public class MailService {
                 r.getCreatedAt(), nvl(r.getIp()), nvl(r.getUa()),
                 eventProps.getVenue(), eventProps.getAddress()
         ));
-        mailSender.send(msg);
+       // mailSender.send(msg);
     }
 
     private String nvl(String s){ return s==null?"":s; }

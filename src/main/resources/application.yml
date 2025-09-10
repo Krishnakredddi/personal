@@ -1,24 +1,31 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/babyshower?useSSL=false&serverTimezone=UTC
-    username: root
-    password: krishna
+    url: jdbc:postgresql://dpg-d30sf1ruibrs73blhc50-a:5432/babyshower_o5ou?sslmode=require
+    username: babyshower_o5ou_user
+    password: Ta2VfWLHTjrTTaE8SWnnokMdwkSn5Glf
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximumPoolSize: 5
+      minimumIdle: 0
+      idleTimeout: 300000
+      connectionTimeout: 20000
   jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update   # dev: auto-create tables
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
+    open-in-view: false
     properties:
-      hibernate:
-        format_sql: true
-  thymeleaf:
-    cache: false
-  mail:
-    host: smtp.sendgrid.net     # or smtp.sendgrid.net / smtp.gmail.com
-    port: 587
-    username: ${SMTP_USERNAME:apikey}
-    password: ${SMTP_PASSWORD:}
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
+      hibernate.jdbc.time_zone: UTC
+    thymeleaf:
+      cache: false
+    mail:
+      host: smtp.sendgrid.net     # or smtp.sendgrid.net / smtp.gmail.com
+      port: 587
+      username: ${SMTP_USERNAME:apikey}
+      password: ${SMTP_PASSWORD:}
+      properties:
+        mail.smtp.auth: true
+        mail.smtp.starttls.enable: true
 
 server:
   port: ${PORT:8080}   # Render sets $PORT at runtime
