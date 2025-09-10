@@ -10,10 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
 </head>
 <body class="page-sky">
-<!-- Poster background (keep as-is) -->
+<!-- Poster background -->
 <div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
 
-<!-- Floating balloons layer -->
+<!-- Floating balloons -->
 <div class="balloons-layer" aria-hidden="true">
     <span class="balloon" style="--x:12%; --size:90px;  --dur:28s; --delay:-4s"></span>
     <span class="balloon" style="--x:28%; --size:70px;  --dur:24s; --delay:-10s"></span>
@@ -38,41 +38,40 @@
 
         <!-- Details -->
         <div class="details mt-3 space-y-2">
-
             <!-- Date -->
             <div class="row info">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-          <line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-      </span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+          </span>
                 <span class="line">Sunday, <b>September 28th</b></span>
             </div>
 
             <!-- Time -->
             <div class="row info">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 16,14"/>
-        </svg>
-      </span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/><polyline points="12,7 12,12 16,14"/>
+            </svg>
+          </span>
                 <span class="line"><b>11:30 AM</b> – <b>4:00 PM</b></span>
             </div>
 
             <!-- Location -->
             <div class="row info">
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21c-4.5-5-7-8.5-7-11a7 7 0 1 1 14 0c0 2.5-2.5 6-7 11z"/>
-          <circle cx="12" cy="10" r="3"/>
-        </svg>
-      </span>
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1f2a44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 21c-4.5-5-7-8.5-7-11a7 7 0 1 1 14 0c0 2.5-2.5 6-7 11z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </span>
                 <span class="line">
-        <b th:text="${event.venue}">HMS Banquet Hall</b><br/>
-        <span th:text="${event.address}">Ajax Community Centre, 75 Centennial Rd, Ajax, ON</span>
-      </span>
+            <b th:text="${event.venue}">HMS Banquet Hall</b><br/>
+            <span th:text="${event.address}">Ajax Community Centre, 75 Centennial Rd, Ajax, ON</span>
+          </span>
             </div>
         </div>
 
@@ -81,8 +80,6 @@
             <a th:href="@{/rsvp}" class="btn btn-primary">RSVP Now</a>
         </div>
     </div>
-
 </div>
-
 </body>
 </html>
