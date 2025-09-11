@@ -2,14 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title th:text="${event.title}">Baby Shower</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Baby Shower – [[${event.title}]]</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" th:href="@{/css/theme.css}" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+
+    <!-- cache-bust so the browser really loads your updated CSS -->
+    <link rel="stylesheet" th:href="@{/css/theme.css(v=${#dates.createNow().time})}" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- keep your poster aspect sync script -->
+    <script>
+        addEventListener('DOMContentLoaded', () => {
+            const img = document.querySelector('.bg-poster img');
+            const root = document.documentElement;
+            const apply = () => {
+                if (img && img.naturalWidth && img.naturalHeight) {
+                    root.style.setProperty('--poster-w', img.naturalWidth);
+                    root.style.setProperty('--poster-h', img.naturalHeight);
+                }
+            };
+            if (img) { img.complete ? apply() : img.addEventListener('load', apply, { once:true }); }
+        });
+    </script>
 </head>
-<body class="page-sky">
+
+<!-- IMPORTANT: add page-home -->
+<body class="page-sky page-home">
+
 <!-- Poster background -->
 <div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
 

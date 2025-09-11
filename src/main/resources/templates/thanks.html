@@ -2,12 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Thank You – [[${event.title}]]</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+
+    <!-- cache-bust so new CSS really loads -->
+    <link rel="stylesheet" th:href="@{/css/theme.css(v=${#dates.createNow().time})}" />
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        // Match overlay aspect to the actual poster PNG (prevents phone drift)
+        addEventListener('DOMContentLoaded', () => {
+            const img = document.querySelector('.bg-poster img');
+            const root = document.documentElement;
+            const apply = () => {
+                if (img && img.naturalWidth && img.naturalHeight) {
+                    root.style.setProperty('--poster-w', img.naturalWidth);
+                    root.style.setProperty('--poster-h', img.naturalHeight);
+                }
+            };
+            if (img) { img.complete ? apply() : img.addEventListener('load', apply, { once:true }); }
+        });
+    </script>
 </head>
+
 <body class="page-sky page-thanks">
 <div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
 
