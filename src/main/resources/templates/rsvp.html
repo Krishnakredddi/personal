@@ -2,12 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>RSVP – [[${event.title}]]</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" th:href="@{/css/theme.css}" />
+    <!-- cache-bust so your latest CSS loads -->
+    <link rel="stylesheet" th:href="@{/css/theme.css(v=${#dates.createNow().time})}" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script>
+        // Sync overlay aspect to the actual poster PNG so cloud coords match on all devices
+        addEventListener('DOMContentLoaded', () => {
+            const img = document.querySelector('.bg-poster img');
+            const root = document.documentElement;
+            const apply = () => {
+                if (img && img.naturalWidth && img.naturalHeight) {
+                    root.style.setProperty('--poster-w', img.naturalWidth);
+                    root.style.setProperty('--poster-h', img.naturalHeight);
+                }
+            };
+            if (img) { img.complete ? apply() : img.addEventListener('load', apply, { once:true }); }
+        });
+    </script>
 </head>
+
 <body class="page-sky page-rsvp">
 <div class="bg-poster"><img src="/images/bg-invite.png" alt="" aria-hidden="true"></div>
 
@@ -24,7 +42,7 @@
         <h1 class="text-2xl font-semibold halo">RSVP</h1>
 
         <form method="post" th:action="@{/rsvp}" th:object="${form}"
-              class="form-grid grid md:grid-cols-2 gap-4 w-full">
+              class="form-grid grid gap-4 w-full">
 
             <div class="field md:col-span-2">
                 <label class="halo">Full Name *</label>
